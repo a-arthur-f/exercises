@@ -5,7 +5,7 @@ pub fn is_prime(number: u128, rounds: usize) -> bool {
         return true;
     }
 
-    if number % 2 == 0 {
+    if number % 2 == 0 || number < 2 {
         return false;
     }
 
