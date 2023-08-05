@@ -1,6 +1,7 @@
 use rand::{thread_rng, Rng};
+use num_bigint::BigUint;
 
-pub fn is_prime(number: u128, rounds: usize) -> bool {
+pub fn is_prime(number: u64, rounds: usize) -> bool {
     if number == 2 || number == 3 {
         return true;
     }
@@ -20,15 +21,15 @@ pub fn is_prime(number: u128, rounds: usize) -> bool {
     }
 
     'outer: for _ in 0..rounds {
-        let a = rng.gen_range(2..=number - 2);
-        let mut x = a.pow(d) % number;
+        let a = BigUint::from(rng.gen_range(2..=number - 2));
+        let mut x: BigUint = a.pow(d) % number;
 
-        if x == 1 || x == number - 1 { continue; }
+        if x == BigUint::from(1u32) || x == BigUint::from(number - 1) { continue; }
 
         for _ in 0..s - 1 {
             x = x.pow(2) % number;
 
-            if x == number - 1 { continue 'outer; }
+            if x == BigUint::from(number - 1) { continue 'outer; }
         }
 
         return false;
