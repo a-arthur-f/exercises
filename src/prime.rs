@@ -19,18 +19,20 @@ pub fn is_prime(number: u128, rounds: usize) -> bool {
         s += 1;
     }
 
-    for _ in 0..rounds {
+    'outer: for _ in 0..rounds {
         let a = rng.gen_range(2..=number - 2);
         let mut x = a.pow(d) % number;
 
-        if x == 1 || x == number - 1 { return true; }
+        if x == 1 || x == number - 1 { continue; }
 
-        for _ in 0..s {
+        for _ in 0..s - 1 {
             x = x.pow(2) % number;
 
-            if x == number - 1 { return true; }
+            if x == number - 1 { continue 'outer; }
         }
+
+        return false;
     }
 
-    false
+    true
 }
