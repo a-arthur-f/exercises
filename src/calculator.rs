@@ -1,4 +1,5 @@
 pub fn calc(expr: &str) -> Result<f64, String> {
+    let expr = expr.trim();
     let tokens = tokenizer(expr)?;
     let postfix = into_postfix(tokens);
 
