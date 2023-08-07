@@ -19,9 +19,8 @@ impl Student {
         let mut total: f32 = 0f32;
 
         for grade in self.grades.iter() {
-            match grade {
-                Grade(value) => total += value
-            }
+            let Grade(grade) = grade;
+            total += grade;
         }
 
         total / self.grades.len() as f32
