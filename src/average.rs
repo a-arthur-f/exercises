@@ -1,14 +1,12 @@
 pub struct Student {
-    grades: Vec<Grade>
+    grades: Vec<Grade>,
 }
 
 pub struct Grade(pub f32);
 
 impl Student {
     pub fn new() -> Student {
-        Student {
-            grades: vec![]
-        }
+        Student { grades: vec![] }
     }
 
     pub fn new_grade(&mut self, grade: Grade) {
