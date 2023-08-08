@@ -141,14 +141,19 @@ fn factorial() {
     println!("\nPlease provide a number to calculate its factorial: \n");
 
     loop {
+        print!("number: ");
+        io::stdout().flush().unwrap();
+
         let mut input = String::new();
 
-        match stdin().read_line(&mut input) {
-            Ok(_) => {
-                let input = input.trim();
-                if input == "exit" {
-                    break;
-                }
+        if stdin().read_line(&mut input).is_err() {
+            println!("\nThere was an error! Please try again.");
+            continue;
+        }
+
+        match input.as_str().trim() {
+            "exit" => break,
+            _ => {
                 if let Ok(number) = input.parse::<u32>() {
                     match factorial::factorial(number) {
                         Ok(factorial) => println!("The factorial of {number} is: {factorial}\n"),
@@ -158,8 +163,6 @@ fn factorial() {
                     println!("\nInvalid number. Please try again.");
                 }
             }
-
-            Err(_) => println!("\nThere was an error! Please try again."),
         }
     }
 }
