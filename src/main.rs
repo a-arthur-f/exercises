@@ -171,27 +171,31 @@ fn palindrome() {
     println!("\nChecks if an input is palindrome:\n");
 
     loop {
+        print!("input: ");
+        io::stdout().flush().unwrap();
+
         let mut input = String::new();
 
-        match stdin().read_line(&mut input) {
-            Ok(_) => {
-                let input = input.trim();
-                if input == "exit" {
-                    break;
-                }
-                let result = {
-                    if palindrome::is_palindrome(input) {
-                        "is palindrome"
-                    } else {
-                        "is not palindrome"
-                    }
-                };
-
-                println!("{input} {result}\n");
-            }
-
-            Err(_) => println!("There was an error. Pleasy try again."),
+        if stdin().read_line(&mut input).is_err() {
+            println!("\nThere was an error! Please try again.");
+            continue;
         }
+
+        let input = input.trim();
+
+        if input == "exit" {
+            break;
+        }
+        
+        let result = {
+            if palindrome::is_palindrome(input) {
+                "is palindrome"
+            } else {
+                "is not palindrome"
+            }
+        };
+
+        println!("{input} {result}\n");
     }
 }
 
