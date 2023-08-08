@@ -113,6 +113,7 @@ fn prime() {
                         current_number += 1;
                     }
                 }
+                "exit" => break,
                 _ => println!("Invalid option! Please try again."),
             },
 
