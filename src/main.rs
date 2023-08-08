@@ -418,7 +418,7 @@ fn interest() {
                 let input = input.trim();
 
                 if let Ok(investment_time) = input.parse::<u32>() {
-                    let mut interest =
+                    let interest =
                         interest::Interest::new(initial_capital, interest_rate, investment_time);
 
                     let total_interest = interest.total_interest();
