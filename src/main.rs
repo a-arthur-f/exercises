@@ -26,7 +26,7 @@ fn main() {
             Ok(_) => match option.as_str().trim() {
                 "1" => calculator(),
                 "2" => prime(),
-                "3" => {}
+                "3" => factorial(),
                 "4" => {}
                 "5" => {}
                 "6" => {}
@@ -121,3 +121,31 @@ fn prime() {
         }
     }
 }
+
+fn factorial() {
+    println!("\nPlease provide a number to calculate its factorial: \n");
+
+    loop {
+        let mut input = String::new();
+
+        match stdin().read_line(&mut input) {
+            Ok(_) => {
+                let input = input.trim();
+                if input == "exit" {
+                    break;
+                }
+                if let Ok(number) = input.parse::<u32>() {
+                    match factorial::factorial(number) {
+                        Ok(factorial) => println!("The factorial of {number} is: {factorial}\n"),
+                        Err(error) => println!("\n{error}\n"),
+                    }
+                } else {
+                    println!("\nInvalid number. Please try again.");
+                }
+            }
+
+            Err(_) => println!("\nThere was an error! Please try again."),
+        }
+    }
+}
+
