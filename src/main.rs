@@ -212,95 +212,96 @@ fn table() {
 
         let mut option = String::new();
 
-        match stdin().read_line(&mut option) {
-            Ok(_) => {
-                let option = option.trim();
-                match option {
-                    "1" => loop {
-                        print!("number: ");
-                        io::stdout().flush().unwrap();
-                        let mut input = String::new();
+        if stdin().read_line(&mut option).is_err() {
+            println!("\nThere was an error. Please try again.");
+            continue;
+        }
 
-                        match stdin().read_line(&mut input) {
-                            Ok(_) => {
-                                let input = input.trim();
-                                if input == "exit" {
-                                    break;
-                                }
-                                if let Ok(number) = input.parse::<f32>() {
-                                    let table = table::Table::gen(number, 1..=10);
-                                    println!("\n{table}");
-                                } else {
-                                    println!("Invalid number! Please try again.")
-                                }
-                            }
+        let option = option.trim();
+        match option {
+            "exit" => break,
+            "1" => from_1_to_10(),
 
-                            Err(_) => println!("There was an error! Please try again."),
-                        }
-                    },
+            "2" => custom_table(),
 
-                    "2" => loop {
-                        print!("number: ");
-                        io::stdout().flush().unwrap();
+            _ => println!("Invalid option! Please try again."),
+        }
+    }
 
-                        let mut input = String::new();
+    fn from_1_to_10() {
+        loop {
+            print!("number: ");
+            io::stdout().flush().unwrap();
+            let mut input = String::new();
 
-                        if stdin().read_line(&mut input).is_err() {
-                            println!("There was an error! Please try again.");
-                            continue;
-                        }
-
-                        let input = input.trim();
-
-                        if input == "exit" {
-                            break;
-                        }
-
-                        if let Ok(number) = input.parse::<f32>() {
-                            print!("from: ");
-                            io::stdout().flush().unwrap();
-                            let mut input = String::new();
-                            if stdin().read_line(&mut input).is_err() {
-                                println!("There was an error! Please try again.");
-                                continue;
-                            }
-
-                            let input = input.trim();
-
-                            if let Ok(from) = input.parse::<usize>() {
-                                print!("to: ");
-                                io::stdout().flush().unwrap();
-                                let mut input = String::new();
-                                if stdin().read_line(&mut input).is_err() {
-                                    println!("There was an error! Please try again.");
-                                    continue;
-                                }
-
-                                let input = input.trim();
-
-                                if let Ok(to) = input.parse::<usize>() {
-                                    let table = table::Table::gen(number, from..=to);
-                                    println!("\n{table}\n");
-                                } else {
-                                    println!("Invalid number! Please try again.")
-                                }
-                            } else {
-                                println!("Invalid number! Please try again.")
-                            }
-                        } else {
-                            println!("Invalid number! Please try again.");
-                        }
-                    },
-
-                    "exit" => {
-                        break;
-                    }
-
-                    _ => println!("Invalid option! Please try again."),
-                }
+            if stdin().read_line(&mut input).is_err() {
+                println!("\nThere was an error! Please try again.");
+                break;
             }
 
-            Err(_) => println!("There was an error. Please try again."),
+            let input = input.trim();
+
+            if input == "exit" {
+                break;
+            }
+
+            if let Ok(number) = input.parse::<f32>() {
+                let table = table::Table::gen(number, 1..=10);
+                println!("\n{table}");
+            } else {
+                println!("Invalid number! Please try again.")
+            }
+        }
+    }
+
+    fn custom_table() {
+        loop {
+            print!("number: ");
+            io::stdout().flush().unwrap();
+
+            let mut input = String::new();
+
+            if stdin().read_line(&mut input).is_err() {
+                println!("\nThere was an error! Please try again.");
+                continue;
+            }
+
+            let input = input.trim();
+
+            if input == "exit" {
+                break;
+            }
+
+            if let Ok(number) = input.parse::<f32>() {
+                print!("from: ");
+                io::stdout().flush().unwrap();
+                let mut input = String::new();
+                if stdin().read_line(&mut input).is_err() {
+                    println!("\nThere was an error! Please try again.");
+                    continue;
+                }
+
+                let input = input.trim();
+
+                if let Ok(from) = input.parse::<usize>() {
+                    print!("to: ");
+                    io::stdout().flush().unwrap();
+                    let mut input = String::new();
+                    if stdin().read_line(&mut input).is_err() {
+                        println!("\nThere was an error! Please try again.");
+                        continue;
+                    }
+
+                    let input = input.trim();
+
+                    if let Ok(to) = input.parse::<usize>() {
+                        let table = table::Table::gen(number, from..=to);
+                        println!("\n{table}\n");
+                        continue;
+                    }
+                }
+            }
+            println!("\nInvalid number! Please try again.");
         }
     }
 }
