@@ -2,6 +2,7 @@ mod average;
 mod calculator;
 mod factorial;
 mod interest;
+mod palindrome;
 mod prime;
 mod table;
 mod vowel;
@@ -27,7 +28,7 @@ fn main() {
                 "1" => calculator(),
                 "2" => prime(),
                 "3" => factorial(),
-                "4" => {}
+                "4" => palindrome(),
                 "5" => {}
                 "6" => {}
                 "7" => {}
@@ -102,7 +103,7 @@ fn prime() {
                 "2" => {
                     println!("\nFirst 10 prime numbers:");
 
-                    let mut found_primes = 0; 
+                    let mut found_primes = 0;
                     let mut current_number = 2u64;
 
                     while found_primes < 10 {
@@ -149,3 +150,30 @@ fn factorial() {
     }
 }
 
+fn palindrome() {
+    println!("\nChecks if an input is palindrome:\n");
+
+    loop {
+        let mut input = String::new();
+
+        match stdin().read_line(&mut input) {
+            Ok(_) => {
+                let input = input.trim();
+                if input == "exit" {
+                    break;
+                }
+                let result = {
+                    if palindrome::is_palindrome(input) {
+                        "is palindrome"
+                    } else {
+                        "is not palindrome"
+                    }
+                };
+
+                println!("{input} {result}\n");
+            }
+
+            Err(_) => println!("There was an error. Pleasy try again."),
+        }
+    }
+}
