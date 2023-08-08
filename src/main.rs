@@ -31,7 +31,7 @@ fn main() {
                 "4" => palindrome(),
                 "5" => table(),
                 "6" => vowel(),
-                "7" => {}
+                "7" => average(),
                 "8" => {}
                 "exit" => break,
                 _ => {
@@ -306,5 +306,68 @@ fn vowel() {
         println!("i: {}", vowels.get(&'i').unwrap());
         println!("o: {}", vowels.get(&'o').unwrap());
         println!("u: {}\n", vowels.get(&'u').unwrap());
+    }
+}
+
+fn average() {
+    println!("Grade average!\n");
+    loop {
+        print!("grade 1: ");
+        io::stdout().flush().unwrap();
+
+        let mut input = String::new();
+
+        if stdin().read_line(&mut input).is_err() {
+            println!("There was an error! Please try again.");
+            continue;
+        }
+
+        let input = input.trim();
+
+        if input == "exit" {
+            break;
+        }
+
+        if let Ok(grade_1) = input.parse::<f32>() {
+            print!("grade 2: ");
+            io::stdout().flush().unwrap();
+
+            let mut input = String::new();
+
+            if stdin().read_line(&mut input).is_err() {
+                println!("There was an error! Please try again.");
+                continue;
+            }
+
+            let input = input.trim();
+
+            if let Ok(grade_2) = input.parse::<f32>() {
+                print!("grade 3: ");
+                io::stdout().flush().unwrap();
+
+                let mut input = String::new();
+
+                if stdin().read_line(&mut input).is_err() {
+                    println!("There was an error! Please try again.");
+                    continue;
+                }
+
+                let input = input.trim();
+
+                if let Ok(grade_3) = input.parse::<f32>() {
+                    let mut student = average::Student::new();
+                    student.new_grade(average::Grade(grade_1));
+                    student.new_grade(average::Grade(grade_2));
+                    student.new_grade(average::Grade(grade_3));
+
+                    let average = student.get_average();
+
+                    println!("The average is: {average}\n");
+                    continue;
+                }
+            }
+        }
+
+        println!("Invalid number! Please try again.\n");
     }
 }
