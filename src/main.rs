@@ -49,20 +49,19 @@ fn calculator() {
     println!("# Does not support parentheses\n");
 
     loop {
-        let mut expr = String::new();
+        let mut input = String::new();
 
-        match stdin().read_line(&mut expr) {
-            Ok(_) => match expr.as_str().trim() {
-                "exit" => break,
-                _ => match calculator::calc(&expr) {
-                    Ok(result) => println!("{result}\n"),
-                    Err(error) => println!("\n{error}\n"),
-                },
+        if stdin().read_line(&mut input).is_err() {
+            println!("\nThere was an error! Please try again.");
+            continue;
+        }
+
+        match input.as_str().trim() {
+            "exit" => break,
+            _ => match calculator::calc(&input) {
+                Ok(result) => println!("{result}\n"),
+                Err(error) => println!("\n{error}\n"),
             },
-
-            Err(_) => {
-                println!("\nThere was an error! Please try again.");
-            }
         }
     }
 }
