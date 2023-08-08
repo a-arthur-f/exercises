@@ -56,12 +56,15 @@ fn calculator() {
             continue;
         }
 
-        match input.as_str().trim() {
-            "exit" => break,
-            _ => match calculator::calc(&input) {
-                Ok(result) => println!("{result}\n"),
-                Err(error) => println!("\n{error}\n"),
-            },
+        let input = input.as_str().trim();
+
+        if input == "exit" {
+            break;
+        }
+
+        match calculator::calc(input) {
+            Ok(result) => println!("{result}\n"),
+            Err(error) => println!("\n{error}\n"),
         }
     }
 }
@@ -151,18 +154,19 @@ fn factorial() {
             continue;
         }
 
-        match input.as_str().trim() {
-            "exit" => break,
-            _ => {
-                if let Ok(number) = input.parse::<u32>() {
-                    match factorial::factorial(number) {
-                        Ok(factorial) => println!("The factorial of {number} is: {factorial}\n"),
-                        Err(error) => println!("\n{error}\n"),
-                    }
-                } else {
-                    println!("\nInvalid number. Please try again.");
-                }
+        let input = input.as_str().trim();
+
+        if input == "exit" {
+            break;
+        }
+
+        if let Ok(number) = input.parse::<u32>() {
+            match factorial::factorial(number) {
+                Ok(factorial) => println!("The factorial of {number} is: {factorial}\n"),
+                Err(error) => println!("\n{error}\n"),
             }
+        } else {
+            println!("\nInvalid number. Please try again.");
         }
     }
 }
@@ -186,7 +190,7 @@ fn palindrome() {
         if input == "exit" {
             break;
         }
-        
+
         let result = {
             if palindrome::is_palindrome(input) {
                 "is palindrome"
