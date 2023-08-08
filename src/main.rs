@@ -6,7 +6,7 @@ mod palindrome;
 mod prime;
 mod table;
 mod vowel;
-use std::io::stdin;
+use std::io::{self, stdin, Write};
 
 fn main() {
     println!("\nWelcome! Choose an option:");
@@ -29,7 +29,7 @@ fn main() {
                 "2" => prime(),
                 "3" => factorial(),
                 "4" => palindrome(),
-                "5" => {}
+                "5" => table(),
                 "6" => {}
                 "7" => {}
                 "8" => {}
@@ -174,6 +174,108 @@ fn palindrome() {
             }
 
             Err(_) => println!("There was an error. Pleasy try again."),
+        }
+    }
+}
+
+fn table() {
+    println!("\nTable of a number! Choose an option.\n");
+
+    loop {
+        println!("1: Table from 1 to 10");
+        println!("2: Custom table\n");
+
+        let mut option = String::new();
+
+        match stdin().read_line(&mut option) {
+            Ok(_) => {
+                let option = option.trim();
+                match option {
+                    "1" => loop {
+                        print!("number: ");
+                        io::stdout().flush().unwrap();
+                        let mut input = String::new();
+
+                        match stdin().read_line(&mut input) {
+                            Ok(_) => {
+                                let input = input.trim();
+                                if input == "exit" {
+                                    break;
+                                }
+                                if let Ok(number) = input.parse::<f32>() {
+                                    let table = table::Table::gen(number, 1..=10);
+                                    println!("\n{table}");
+                                } else {
+                                    println!("Invalid number! Please try again.")
+                                }
+                            }
+
+                            Err(_) => println!("There was an error! Please try again."),
+                        }
+                    },
+
+                    "2" => loop {
+                        print!("number: ");
+                        io::stdout().flush().unwrap();
+
+                        let mut input = String::new();
+
+                        if stdin().read_line(&mut input).is_err() {
+                            println!("There was an error! Please try again.");
+                            continue;
+                        }
+
+                        let input = input.trim();
+
+                        if input == "exit" {
+                            break;
+                        }
+
+                        if let Ok(number) = input.parse::<f32>() {
+                            print!("from: ");
+                            io::stdout().flush().unwrap();
+                            let mut input = String::new();
+                            if stdin().read_line(&mut input).is_err() {
+                                println!("There was an error! Please try again.");
+                                continue;
+                            }
+
+                            let input = input.trim();
+
+                            if let Ok(from) = input.parse::<usize>() {
+                                print!("to: ");
+                                io::stdout().flush().unwrap();
+                                let mut input = String::new();
+                                if stdin().read_line(&mut input).is_err() {
+                                    println!("There was an error! Please try again.");
+                                    continue;
+                                }
+
+                                let input = input.trim();
+
+                                if let Ok(to) = input.parse::<usize>() {
+                                    let table = table::Table::gen(number, from..=to);
+                                    println!("\n{table}\n");
+                                } else {
+                                    println!("Invalid number! Please try again.")
+                                }
+                            } else {
+                                println!("Invalid number! Please try again.")
+                            }
+                        } else {
+                            println!("Invalid number! Please try again.");
+                        }
+                    },
+
+                    "exit" => {
+                        break;
+                    }
+
+                    _ => println!("Invalid option! Please try again."),
+                }
+            }
+
+            Err(_) => println!("There was an error. Please try again."),
         }
     }
 }
