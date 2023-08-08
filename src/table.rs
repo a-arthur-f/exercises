@@ -21,8 +21,16 @@ impl std::fmt::Display for Table {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let mut string = String::new();
 
-        for (index, product) in self.table.iter().enumerate() {
-            string.push_str(format!("{} x {} = {}\n", self.multiplier, index, product).as_str());
+        for product in self.table.iter() {
+            string.push_str(
+                format!(
+                    "{} x {} = {}\n",
+                    self.multiplier,
+                    product / self.multiplier,
+                    product
+                )
+                .as_str(),
+            );
         }
 
         write!(f, "{}", string)
