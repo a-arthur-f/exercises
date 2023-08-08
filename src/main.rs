@@ -30,7 +30,7 @@ fn main() {
                 "3" => factorial(),
                 "4" => palindrome(),
                 "5" => table(),
-                "6" => {}
+                "6" => vowel(),
                 "7" => {}
                 "8" => {}
                 "exit" => break,
@@ -277,5 +277,34 @@ fn table() {
 
             Err(_) => println!("There was an error. Please try again."),
         }
+    }
+}
+
+fn vowel() {
+    println!("Count vowels in a string!\n");
+    loop {
+        print!("input: ");
+        io::stdout().flush().unwrap();
+
+        let mut input = String::new();
+
+        if stdin().read_line(&mut input).is_err() {
+            println!("There was an error! Please try again");
+            continue;
+        }
+
+        let input = input.trim();
+
+        if input == "exit" {
+            break;
+        }
+
+        let (count, vowels) = vowel::count(&input);
+        println!("\ntotal: {count}");
+        println!("a: {}", vowels.get(&'a').unwrap());
+        println!("e: {}", vowels.get(&'e').unwrap());
+        println!("i: {}", vowels.get(&'i').unwrap());
+        println!("o: {}", vowels.get(&'o').unwrap());
+        println!("u: {}\n", vowels.get(&'u').unwrap());
     }
 }
