@@ -32,7 +32,7 @@ fn main() {
                 "5" => table(),
                 "6" => vowel(),
                 "7" => average(),
-                "8" => {}
+                "8" => interest(),
                 "exit" => break,
                 _ => {
                     println!("\nInvalid option! Pleasy try again.\n");
@@ -363,6 +363,69 @@ fn average() {
                     let average = student.get_average();
 
                     println!("The average is: {average}\n");
+                    continue;
+                }
+            }
+        }
+
+        println!("Invalid number! Please try again.\n");
+    }
+}
+
+fn interest() {
+    println!("Interest calculator!\n");
+    loop {
+        print!("initial capital: ");
+        io::stdout().flush().unwrap();
+
+        let mut input = String::new();
+
+        if stdin().read_line(&mut input).is_err() {
+            println!("There was an error! Please try again.");
+            continue;
+        }
+
+        let input = input.trim();
+
+        if input == "exit" {
+            break;
+        }
+
+        if let Ok(initial_capital) = input.parse::<f32>() {
+            print!("interest rate(decimal): ");
+            io::stdout().flush().unwrap();
+
+            let mut input = String::new();
+
+            if stdin().read_line(&mut input).is_err() {
+                println!("There was an error! Please try again.");
+                continue;
+            }
+
+            let input = input.trim();
+
+            if let Ok(interest_rate) = input.parse::<f32>() {
+                print!("investment time(months): ");
+                io::stdout().flush().unwrap();
+
+                let mut input = String::new();
+
+                if stdin().read_line(&mut input).is_err() {
+                    println!("There was an error! Please try again.");
+                    continue;
+                }
+
+                let input = input.trim();
+
+                if let Ok(investment_time) = input.parse::<u32>() {
+                    let mut interest =
+                        interest::Interest::new(initial_capital, interest_rate, investment_time);
+
+                    let total_interest = interest.total_interest();
+                    let final_value = interest.final_value();
+
+                    println!("\ntotal interest: {total_interest}");
+                    println!("final value: {final_value}\n");
                     continue;
                 }
             }
