@@ -74,50 +74,65 @@ fn prime() {
 
         let mut option = String::new();
 
-        match stdin().read_line(&mut option) {
-            Ok(_) => match option.as_str().trim() {
-                "1" => loop {
-                    let mut number = String::new();
+        if stdin().read_line(&mut option).is_err() {
+            println!("\nThere was an error! Please try again.");
+            continue;
+        }
 
-                    match stdin().read_line(&mut number) {
-                        Ok(_) => {
-                            if let Ok(number) = number.trim().parse::<u64>() {
-                                let result = {
-                                    if prime::is_prime(number, 40) {
-                                        format!("{number} is prime")
-                                    } else {
-                                        format!("{number} is not prime")
-                                    }
-                                };
+        match option.as_str().trim() {
+            "exit" => break,
+            "1" => is_prime(),
+            "2" => first_10_primes(),
+            _ => println!("Invalid option! Please try again."),
+        }
+    }
 
-                                println!("{result}");
-                            } else {
-                                println!("Invalid number! Please try again.")
-                            }
-                        }
+    fn is_prime() {
+        loop {
+            print!("number: ");
+            io::stdout().flush().unwrap();
 
-                        Err(_) => println!("\nThere was an error! Please try again."),
+            let mut input = String::new();
+
+            if stdin().read_line(&mut input).is_err() {
+                println!("\nThere was an error! Please try again.");
+                continue;
+            }
+
+            let input = input.as_str().trim();
+
+            if input == "exit" {
+                break;
+            }
+
+            if let Ok(number) = input.parse::<u64>() {
+                let result = {
+                    if prime::is_prime(number, 40) {
+                        format!("{number} is prime")
+                    } else {
+                        format!("{number} is not prime")
                     }
-                },
-                "2" => {
-                    println!("\nFirst 10 prime numbers:");
+                };
 
-                    let mut found_primes = 0;
-                    let mut current_number = 2u64;
+                println!("{result}");
+            } else {
+                println!("Invalid number! Please try again.")
+            }
+        }
+    }
 
-                    while found_primes < 10 {
-                        if prime::is_prime(current_number, 40) {
-                            found_primes += 1;
-                            println!("{current_number}");
-                        }
-                        current_number += 1;
-                    }
-                }
-                "exit" => break,
-                _ => println!("Invalid option! Please try again."),
-            },
+    fn first_10_primes() {
+        println!("\nFirst 10 prime numbers:");
 
-            Err(_) => println!("\nThere was an error! Please try again."),
+        let mut found_primes = 0;
+        let mut current_number = 2u64;
+
+        while found_primes < 10 {
+            if prime::is_prime(current_number, 40) {
+                found_primes += 1;
+                println!("{current_number}");
+            }
+            current_number += 1;
         }
     }
 }
